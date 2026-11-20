@@ -1,0 +1,5 @@
+#!/bin/sh
+# for-work local-only guard. Refuses every push unless ALLOW_PUSH=1 is set inline on that one command.
+# Installed per repository by tools/install_repo_guard.sh; chains to this repo's earlier hook, saved as pre-push.local.
+[ "$ALLOW_PUSH" = 1 ] || { echo "Push refused: this machine is local-only. Re-run with ALLOW_PUSH=1 only after the operator asked for this push." >&2; exit 1; }
+h="$(dirname "$0")/pre-push.local"; [ -x "$h" ] && exec "$h" "$@"; exit 0

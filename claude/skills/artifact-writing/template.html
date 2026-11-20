@@ -1,0 +1,88 @@
+<title>{{Page Name}}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Poppins:wght@400;500;600&display=swap">
+<style>
+/* Layout (desktop monitor, window ~1575px): prose column 760px at 19px Lora = ~75 characters per line (Bringhurst, Elements of Typographic Style: 45-75, ideal 66; Dyson & Haselgrove 2001, Int. J. Human-Computer Studies: screen line lengths of 55 to 100 characters read acceptably, so 75 sits inside the safe band). Tables and the page frame break out to 1240px so wide data uses the monitor. Phone: 16px gutter, no page-wide sideways scroll. */
+:root{
+  --bg:#1e1e20;--surface:#28282b;--line:#363639;--line2:#4c4c50;--fg:#e4e4e7;--mut:#a9a9b0;--clay:#d97757;--clayt:#f0a083;--ok:#a9cf86;--warn:#e8bf6a;--bad:#f59a8c;--hl:rgba(250,204,21,.34);
+  --serif:"Lora",Georgia,serif;--sans:"Poppins",Arial,system-ui,sans-serif;--mono:ui-monospace,"SF Mono",Menlo,monospace;color-scheme:dark;
+}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f4ecdb;--surface:#ebe1cb;--line:#e0d4ba;--line2:#c9bb9c;--fg:#1f1a12;--mut:#574c3a;--clay:#d97757;--clayt:#9a3f22;--ok:#46602a;--warn:#7a4e0c;--bad:#9a2f24;--hl:#fde68a;color-scheme:light}}
+:root[data-theme="light"]{--bg:#f4ecdb;--surface:#ebe1cb;--line:#e0d4ba;--line2:#c9bb9c;--fg:#1f1a12;--mut:#574c3a;--clay:#d97757;--clayt:#9a3f22;--ok:#46602a;--warn:#7a4e0c;--bad:#9a2f24;--hl:#fde68a;color-scheme:light}
+*{box-sizing:border-box}
+section{overflow-wrap:break-word}
+body{background:var(--bg);color:var(--fg);font:19px/1.7 var(--serif);padding-inline:16px;margin:0;-webkit-font-smoothing:antialiased}
+.w{max-width:1240px;margin:0 auto;padding-block:28px 96px}
+.w>section>:not(.tw){max-width:760px;margin-inline:auto}
+.kick{font:500 13px/1.4 var(--sans);color:var(--mut);letter-spacing:.02em;display:flex;gap:10px;align-items:center}
+.kick i{width:10px;height:10px;border-radius:50%;background:var(--clay);display:inline-block}
+nav{display:flex;gap:4px 22px;flex-wrap:wrap;position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5;border-bottom:1px solid var(--line);margin-top:18px}
+nav button{font:500 15px/1 var(--sans);color:var(--mut);background:none;border:0;border-bottom:2px solid transparent;padding:14px 0 12px;cursor:pointer}
+nav button:hover{color:var(--fg)}
+nav button[aria-selected="true"]{color:var(--fg);border-bottom-color:var(--clay)}
+button:focus-visible,a:focus-visible,.tw:focus-visible{outline:2px solid var(--clay);outline-offset:3px;border-radius:2px}
+h1,h2,h3,h4{font-family:var(--sans);font-weight:600;text-wrap:balance;letter-spacing:-.01em;line-height:1.25}
+h1{font-size:2.1rem;margin:2.2rem 0 1rem;font-weight:500}
+h2{font-size:1.4rem;margin:3rem 0 .8rem;font-weight:500}
+h3{font-size:1.1rem;margin:2rem 0 .5rem}
+p,li{overflow-wrap:break-word}
+p{margin:0 0 1.1em}
+li{margin-bottom:.45em}
+strong{font-weight:600}
+a{color:var(--fg);text-decoration:underline;text-decoration-color:var(--clay);text-underline-offset:3px;text-decoration-thickness:1px}
+a:hover{color:var(--clayt)}
+a.u{font:13px var(--sans);color:var(--mut);overflow-wrap:anywhere}
+code{font:.8em var(--mono);background:var(--surface);padding:2px 5px;border-radius:4px;overflow-wrap:anywhere}
+pre{overflow-x:auto;background:var(--surface);padding:14px;border-radius:8px}pre code{padding:0;background:none}
+blockquote{margin:1.4em 0;padding-left:20px;border-left:2px solid var(--line2);color:var(--mut);font-style:italic}
+hr{border:0;border-top:1px solid var(--line);margin:2.5rem 0}
+.cite{font:500 11px/1 var(--sans);color:var(--mut);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px 7px;white-space:nowrap;vertical-align:2px;margin-left:2px}
+.cite.long{white-space:normal;overflow-wrap:anywhere}
+.cite.flag{white-space:normal;overflow-wrap:anywhere;color:var(--warn);border-color:var(--warn)}
+.hero{background:var(--surface);border-radius:12px;padding:6px 26px 14px;margin:1.6rem 0}
+.hero h2{margin-top:1.2rem;font-size:1.15rem;color:var(--clayt)}
+.verdict{border:1px solid var(--line2);border-radius:12px;padding:16px 24px;margin:1.6rem 0}
+.verdict .lbl{font:600 12px var(--sans);text-transform:uppercase;letter-spacing:.08em;color:var(--clayt);margin:0 0 4px}
+.verdict .more{font:14px var(--sans);color:var(--mut);margin:0}
+.paths{background:var(--surface);border-radius:12px;padding:6px 26px 16px;margin:2.5rem 0}
+.paths h2{margin-top:1.2rem}
+.note{color:var(--mut);font-size:.9rem;border-top:1px solid var(--line);padding-top:1rem;margin-top:2rem}
+.tw{overflow-x:auto;position:relative;left:50%;transform:translateX(-50%);width:min(1240px,calc(100vw - 32px));margin-block:1.5rem 2rem;border:1px solid var(--line);border-radius:12px;background:var(--bg)}
+.dt{border-collapse:separate;border-spacing:0;font:14.5px/1.5 var(--serif);font-variant-numeric:lining-nums tabular-nums;width:100%}
+.dt th{font:600 12px/1.35 var(--sans);text-transform:uppercase;letter-spacing:.05em;color:var(--mut);background:var(--surface);text-align:left;vertical-align:bottom;padding:12px 14px;border-bottom:1px solid var(--line2)}
+.dt td{padding:12px 14px;vertical-align:top;border-bottom:1px solid var(--line)}
+.dt tr:last-child td{border-bottom:0}
+.dt.many{min-width:980px}
+.dt .w1{min-width:6.5rem}.dt .w2{min-width:11rem}.dt .w3{min-width:17rem}
+.dt td:first-child,.dt th:first-child{position:sticky;left:0;z-index:1;background:var(--bg);box-shadow:1px 0 0 var(--line2)}
+.dt th:first-child{background:var(--surface)}
+.dt td:first-child{font:500 14px/1.4 var(--sans)}
+.rk{display:inline-block;font:500 11px var(--sans);color:var(--mut);margin-right:6px}
+.pill{display:inline-block;font:500 11px/1 var(--sans);padding:4px 8px;border-radius:999px;margin:0 6px 6px 0;border:1px solid currentColor}
+.pill.ok{color:var(--ok)}.pill.warn{color:var(--warn)}.pill.bad{color:var(--bad)}
+.foot{font:13px var(--sans);color:var(--mut);margin-top:4rem;border-top:1px solid var(--line);padding-top:1rem}
+@media (max-width:600px){body{font-size:17px}.w>section>:not(.tw){max-width:none}h1{font-size:1.6rem}.hero,.paths,.verdict{padding-inline:18px}.dt.many{min-width:860px}.dt .w3{min-width:14rem}}
+</style>
+<div class="w" data-annotate>
+<section>
+<p class="kick"><i></i>{{Eyebrow: project or date}}</p>
+<h1>{{Page Name}}</h1>
+<div class="hero" id="tldr">
+<h2>TL;DR</h2>
+<p>{{The answer in 1 to 3 sentences, with its number or decision.}}</p>
+<h2>Key Points</h2>
+<ul>
+<li>{{Point grounded in a section below}}</li>
+<li>{{Point grounded in a section below}}</li>
+<li>{{Point grounded in a section below}}</li>
+</ul>
+</div>
+<h2>{{Section heading}}</h2>
+<p>{{Body text.}}</p>
+<div class="tw" tabindex="0"><table class="dt">
+<thead><tr><th>{{Item}}</th><th>{{Attribute}}</th></tr></thead>
+<tbody><tr><td>{{Row}}</td><td>{{Value}}</td></tr></tbody>
+</table></div>
+<p class="foot">{{Sources and as-of date}}</p>
+</section>
+</div>

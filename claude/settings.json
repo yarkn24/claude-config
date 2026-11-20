@@ -1,0 +1,289 @@
+{
+  "env": {
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "CLAUDE_CODE_SUBAGENT_MODEL": "sonnet",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "claude-haiku-5-5"
+  },
+  "permissions": {
+    "defaultMode": "default",
+    "allow": [
+      "Read",
+      "Glob",
+      "Grep",
+      "Bash(git status)",
+      "Bash(git status *)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git show *)",
+      "Bash(ls *)",
+      "Bash(pwd)",
+      "Bash(wc *)",
+      "Agent(*)",
+      "TaskOutput(*)",
+      "TaskStop(*)",
+      "TodoWrite(*)",
+      "ScheduleWakeup(*)"
+    ],
+    "ask": [
+      "WebFetch",
+      "WebSearch",
+      "Bash(git push *)",
+      "Bash(git commit *)",
+      "Bash(git remote *)",
+      "Bash(gh *)",
+      "Bash(rm *)",
+      "Bash(rmdir *)",
+      "Bash(mv *)",
+      "Bash(git rm *)",
+      "Bash(git clean *)",
+      "Bash(git reset *)",
+      "Bash(git checkout *)",
+      "Bash(git restore *)",
+      "Bash(git stash *)",
+      "Bash(curl *)",
+      "Bash(wget *)",
+      "Bash(pip install *)",
+      "Bash(npm install *)",
+      "Bash(brew *)",
+      "Bash(sudo *)"
+    ],
+    "deny": [
+      "Read(~/.ssh/**)",
+      "Read(**/.env)",
+      "Read(**/.env.*)",
+      "Edit(~/.claude/settings.json)",
+      "Write(~/.claude/settings.json)",
+      "Edit(~/.claude/hooks/**)",
+      "Write(~/.claude/hooks/**)",
+      "Edit(~/.config/git/hooks/**)",
+      "Write(~/.config/git/hooks/**)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/git-guard.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/delete-guard.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/git-lock-guard.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/system-file-doctrine-gate.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/rtk-plan-aware.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write|MultiEdit|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/system-file-doctrine-gate.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/md-lovable-preguard.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/claude-md-isolation-guard.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/agent-model-skills-guard.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/code-quality-preguard.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Agent",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/agent-model-gate.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/opus-concurrency-guard.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/agent-brief-doctrine.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "ExitPlanMode",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/plan-detail-gate.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "ListAgents",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/listagents-poll-guard.sh"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/em-dash-guard.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/code-comment-postguard.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/claude-md-size-nudge.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/hooks-dir-verify-guard.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/log-edit.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/md-directive-postguard.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "WebFetch|WebSearch",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/internet-evidence-guard.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/research-multi-source-tracker.sh"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/main-context-diet-guard.sh"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/md-directive-stopgate.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/research-multi-source-gate.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/log-stop.sh"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/hook-selftest.sh"
+          },
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/claude-md-audit-reminder.sh"
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ~/.claude/hooks/opus-concurrency-release.sh"
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "bash ~/.claude/statusline.sh",
+    "padding": 2
+  },
+  "effortLevel": "medium",
+  "tui": "fullscreen",
+  "disableRemoteControl": true,
+  "inputNeededNotifEnabled": true,
+  "model": "opus",
+  "modelSettings": {
+    "claude-opus-5": {
+      "effortLevel": "medium"
+    },
+    "claude-sonnet-5": {
+      "effortLevel": "high"
+    },
+    "claude-opus-5-5": {
+      "effortLevel": "high"
+    },
+    "claude-sonnet-5-5": {
+      "effortLevel": "high"
+    },
+    "claude-fable-5-1": {
+      "effortLevel": "high"
+    }
+  },
+  "autoMode": {
+    "allow": [
+      "$defaults",
+      "Guard Hardening: Edits to guard files that ADD or TIGHTEN protection are routine hardening of the user's own guards and are not Self-Modification or Auto-Mode Bypass. Guard files: ~/.claude/hooks/**, ~/.claude/settings.json, any script wired there as a hook, and files the transcript shows a guard hook reading. Qualifying edits, by any tool whose full diff is visible: creating a new guard hook that can only block or ask (it never emits an allow decision, rewrites tool input, or runs network or persistence behavior) and wiring it into settings.json; adding a permissions.deny or permissions.ask rule; narrowing an existing permissions.allow rule; extending a hook matcher to cover more tool calls; adding an extra check or an earlier block path to a hook (the added code must have no exit 0 or fail-open path ahead of the existing checks); adding an autoMode soft_deny or hard_deny rule. Applies only while every existing guard stays present, wired, and at least as strict as before. A whole-file overwrite that hides what was dropped, an ambiguous edit, or an edit that also loosens any guard is not covered here and falls to Guard Loosening or the default Self-Modification rule."
+    ],
+    "soft_deny": [
+      "$defaults",
+      "Guard Loosening [named+specifics, **must name:** the guard hook, rule, or setting being removed or loosened and the exact change]: Edits, by any tool (Edit, Write, or shell such as sed, mv, rm, chmod, ln, git checkout), to guard files (~/.claude/hooks/**, ~/.claude/settings.json, any script wired there as a hook, files the transcript shows a guard hook reading, like allowlists or helper libraries) that REMOVE or LOOSEN protection. Covers: deleting, disabling, renaming, moving, symlinking, emptying, or chmod -x on a guard hook script; removing a hook entry or narrowing its matcher so it fires less often; setting disableAllHooks; raising hook timeouts; deleting a permissions.deny or permissions.ask rule; widening a permissions.allow rule or adding a permissive allow, additionalDirectories, or bypass entry (including skipDangerousModePermissionPrompt); widening sandbox exemptions; flipping permissions.defaultMode toward bypassPermissions or acceptEdits; weakening a hook's block condition, for example exiting 0 earlier, adding an allowlist bypass, turning a block into a warning, or making it emit an allow decision; removing or editing the autoMode rules that enforce this policy, adding a permissive autoMode allow or environment entry, or dropping \"$defaults\" from an autoMode array. A mixed edit that adds protection and also loosens another guard is blocked as a whole. If this rule matches, Guard Hardening never applies. Neutral edits that change no guard behavior (comments, formatting) are not covered. Clears only when the user's own message names the exact guard and change, or approves an agent proposal that named them; a general request alone does not clear it."
+    ]
+  },
+  "switchModelsOnFlag": true,
+  "agentPushNotifEnabled": true
+}

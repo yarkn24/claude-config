@@ -1,0 +1,5 @@
+#!/bin/sh
+# for-work local-only guard. Refuses every commit unless ALLOW_COMMIT=1 is set inline on that one command.
+# Installed per repository by tools/install_repo_guard.sh; chains to this repo's earlier hook, saved as pre-commit.local.
+[ "$ALLOW_COMMIT" = 1 ] || { echo "Commit refused: this machine is local-only. Re-run with ALLOW_COMMIT=1 only after the operator asked for this commit." >&2; exit 1; }
+h="$(dirname "$0")/pre-commit.local"; [ -x "$h" ] && exec "$h" "$@"; exit 0
